@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111827">
+<link rel="manifest" href="./manifest.json">
+<title>Trading R</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#0b0f14;color:#fff;font-family:system-ui,sans-serif;display:flex;justify-content:center}
+.app{width:min(100%,560px);min-height:100vh;padding:28px 18px;display:flex;flex-direction:column}
+h1{text-align:center;margin:18px 0 35px;font-size:30px}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+button{border:0;border-radius:18px;min-height:170px;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:active{transform:scale(.97)}
+.sl{background:#b42318}.tp{background:#16803c}
+.label{display:block;font-size:18px;font-weight:600;opacity:.9}.value{font-size:38px;font-weight:800}
+.total{margin-top:28px;border-radius:20px;background:#151b24;padding:28px 18px;text-align:center}
+.title{font-size:18px;color:#aeb7c4}.r{font-size:54px;font-weight:900;margin-top:6px}
+.reset{margin-top:18px;min-height:54px;background:#252d38;font-size:18px}
+.hint{text-align:center;color:#7f8a98;font-size:13px;margin-top:auto;padding-top:30px}
+</style>
+</head>
+<body>
+<main class="app">
+<h1>Trading R</h1>
+<section class="buttons">
+<button class="sl" id="sl"><span class="label">SL</span><span class="value">−1R</span></button>
+<button class="tp" id="tp"><span class="label">TP</span><span class="value">+3R</span></button>
+</section>
+<section class="total"><div class="title">ผลรวม</div><div class="r" id="total">0R</div></section>
+<button class="reset" id="reset">รีเซ็ต</button>
+<div class="hint">SL = −1R &nbsp;|&nbsp; TP = +3R</div>
+</main>
+<script>
+const K="trading-r-total";let total=Number(localStorage.getItem(K)||0);
+function show(){document.getElementById("total").textContent=(total>0?"+":"")+total+"R"}
+sl.onclick=()=>{total--;localStorage.setItem(K,total);show()};
+tp.onclick=()=>{total+=3;localStorage.setItem(K,total);show()};
+reset.onclick=()=>{if(confirm("รีเซ็ตผลรวมเป็น 0R ใช่ไหม?")){total=0;localStorage.setItem(K,total);show()}};
+show();
+if("serviceWorker"in navigator)navigator.serviceWorker.register("./sw.js");
+</script>
+</body>
+</html>
